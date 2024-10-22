@@ -1,5 +1,5 @@
 from django.urls import path
-from rest_usuarios.views import *
+from rest_vehiculo.views import *
 
 
 urlpatterns = [
