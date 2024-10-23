@@ -11,4 +11,9 @@ class Usuario_app(models.Model):
     
     def __str__(self):
         return self.username
+    
+
+class Viajes(models.Model):
+    id= models.IntegerField(primary_key=True, verbose_name='Id de viaje')
+    
 # Create your models here.
