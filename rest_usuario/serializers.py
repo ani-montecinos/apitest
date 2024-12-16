@@ -1,6 +1,6 @@
 from rest_framework import serializers
 # Importar los modelos de models.py
-from .models import TipoUsuario, Usuario, Viaje
+from .models import TipoUsuario, Usuario
 
 class TipoUsuarioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,7 +12,3 @@ class UsuarioSerializer(serializers.ModelSerializer):
         model = Usuario
         fields= '__all__'
 
-class ViajeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Viaje
-        fields= '__all__'

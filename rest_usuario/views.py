@@ -4,8 +4,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
-from .models import Usuario, TipoUsuario, Viaje
-from .serializers import UsuarioSerializer, TipoUsuarioSerializer, ViajeSerializer
+from .models import Usuario, TipoUsuario
+from .serializers import UsuarioSerializer, TipoUsuarioSerializer
 
 # Create your views here.
 
@@ -70,45 +70,3 @@ def listar_tipo_usuarios(request):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-@csrf_exempt
-@api_view(['GET', 'POST'])
-def listar_viajes(request):
-    # Lista viajes y permite crear un nuevo viaje
-    if request.method == 'GET':
-        viajes = Viaje.objects.all()
-        serializer = ViajeSerializer(viajes, many=True)
-        return Response(serializer.data)
-    
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = ViajeSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-@api_view(['GET', 'PUT', 'DELETE'])
-def detalle_viaje(request, username):
-    # Obtiene, actualiza o elimina un viaje específico por su 'id'
-    try:
-        viaje = Viaje.objects.get(username=username)
-    except Viaje.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    
-    if request.method == 'GET':
-        serializer = ViajeSerializer(viaje)
-        return Response(serializer.data)
-    
-    elif request.method == 'PUT':
-        data = JSONParser().parse(request)
-        serializer = ViajeSerializer(viaje, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    elif request.method == 'DELETE':
-        viaje.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
